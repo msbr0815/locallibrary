@@ -2,3 +2,5 @@ venv/
 
 .authfile
 *.pyc
+
+db.sqlite3
