@@ -28,7 +28,8 @@ class Book(models.Model):
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
 
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
-    isbn = models.CharField('ISBN', max_length=13, help_text='13 character<a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
+    isbn = models.CharField('ISBN', max_length=13, help_text='13 character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
+    #year = models.DateField()
 
     # ManyToManyField used because genre can contain many books
     # Genre class has already been defined so we can specify the object above.
@@ -75,7 +76,9 @@ class BookInstance(models.Model):
 class Author(models.Model):
     """Model representing an author."""
     first_name = models.CharField(max_length=100)
+    middle_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100)
+    name_suffix = models.CharField(max_length=10, null=True, blank=True)
     # At the moment, Language replaces Nationality (the two should be combined).
     # Think about adding a translator to the book: Give the author a function
     # (first_author, second_author, translator etc) and think about renaming the
@@ -85,7 +88,7 @@ class Author(models.Model):
     date_of_death = models.DateField('Died', null=True, blank = True)
 
     class Meta:
-        ordering = ['last_name', 'first_name']
+        ordering = ['last_name', 'first_name', 'middle_name']
 
     def get_absolute_url(self):
         """Returns the url to access a particular author instance."""
@@ -93,4 +96,10 @@ class Author(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.last_name}, {self.first_name}'
+        middle = ""
+        suffix = ""
+        if self.middle_name:
+            middle = " " + (self.middle_name)[0] + "."
+        if self.name_suffix:
+            suffix = " " + self.name_suffix
+        return f'{self.last_name}, {self.first_name} {middle}{suffix}'
