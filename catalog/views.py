@@ -3,6 +3,27 @@ from django.shortcuts import render
 # Create your views here.
 
 from catalog.models import Book, Author, BookInstance, Genre
+from django.views import generic
+
+class AuthorListView(generic.ListView):
+    model = Author
+    #paginate_by = 10
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+    #books_written = Book.objects.filter(author__exact=model.id)
+
+class BookListView(generic.ListView):
+    model = Book
+    paginate_by = 10
+    #Pattern:
+    #1. Get existing context from superclass (here: Book)
+    #2. Add new context information: define out put function
+    #3. Return updated content
+    #
+
+class BookDetailView(generic.DetailView):
+    model = Book
 
 def index(request):
     """View function for the home page of the site."""
