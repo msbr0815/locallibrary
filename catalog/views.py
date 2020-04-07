@@ -11,11 +11,6 @@ class AuthorListView(generic.ListView):
 
 class AuthorDetailView(generic.DetailView):
     model = Author
-    books = Book.objects.filter(author=Author.id)
-
-    def num_books():
-        return books.count()
-    #books_written = Book.objects.filter(author__exact=model.id)
 
 class BookListView(generic.ListView):
     model = Book
