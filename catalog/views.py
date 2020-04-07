@@ -11,6 +11,10 @@ class AuthorListView(generic.ListView):
 
 class AuthorDetailView(generic.DetailView):
     model = Author
+    books = Book.objects.filter(author=Author.id)
+
+    def num_books():
+        return books.count()
     #books_written = Book.objects.filter(author__exact=model.id)
 
 class BookListView(generic.ListView):
@@ -18,7 +22,7 @@ class BookListView(generic.ListView):
     paginate_by = 10
     #Pattern:
     #1. Get existing context from superclass (here: Book)
-    #2. Add new context information: define out put function
+    #2. Add new context information: define output function
     #3. Return updated content
     #
 
