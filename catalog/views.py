@@ -36,9 +36,12 @@ def index(request):
     #Available books (status = "a")
     num_instances_available = BookInstance.objects.filter(status__exact='a').count()
 
-    #"all()" is implied by default.
+    # "all()" is implied by default.
     num_authors = Author.objects.count()
     num_genres = Genre.objects.count()
+    # Count the number of visits to this view, as counted in the sessions variable
+    num_visits = request.session.get('num_visits', 0) # 0 is a default value
+    request.session['num_visits'] = num_visits + 1
 
     dict_context = {
         'num_books': num_books,
@@ -46,7 +49,8 @@ def index(request):
         'num_instances_available': num_instances_available,
         'num_authors': num_authors,
         'num_genres': num_genres,
-        'num_der': num_der
+        'num_der': num_der,
+        'num_visits': num_visits
     }
 
     #Render the HTML templace index.html with the data in the context variable
