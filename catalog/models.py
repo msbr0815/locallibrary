@@ -1,3 +1,5 @@
+from datetime import date
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
 import uuid # Required for unique book instances
@@ -75,9 +77,22 @@ class BookInstance(models.Model):
         help_text = 'Book availability',
     )
 
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
+
     class Meta:
         ordering = ['due_back']
-
+        # Permission for the admin site (needs to be implemented):
+        permissions = (
+            ("can_mark_returned", "Can set book as returned"),
+            ("can_see_maintenance","Can see maintenance status"),
+            ("can_modify_maintenance", "Can modify maintenance status")
+        )
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.id} ({self.book.title})'
