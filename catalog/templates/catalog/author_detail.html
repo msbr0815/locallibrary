@@ -11,6 +11,12 @@
       {% endfor %}
     </ul>
     <!-- Reverse lookup -->
-
   </div>
+  {% if perms.catalog.can_mark_returned %}
+    <div style="background-color:lightblue" class="authormod">
+      <span class="update"><a href="{{ author.get_absolute_url }}/update">Update author</a></span>
+      <span class="delete"><a href="{{ author.get_absolute_url }}/delete">Delete author</a></span>
+      <span class="addBook"><a href="">Add book</a></span>
+    </div>
+  {% endif %}
 {% endblock %}

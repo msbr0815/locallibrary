@@ -9,6 +9,14 @@
   <p><strong>Language:</strong> {{ book.language }}</p>
   <p><strong>Genre:</strong> {{ book.genre.all|join:"," }}</p>
 
+  {% if perms.catalog.can_mark_returned %}
+  <div style="background-color:lightblue" class="bookmod">
+    <span class="update"><a href="{{ book.get_absolute_url }}/update">Update book</a></span>
+    <span class="delete"><a href="{{ book.get_absolute_url }}/delete">Delete book</a></span>
+    <span class="addInstance"><a href="">Add copy</a></span>
+  </div>
+  {% endif %}
+
   <div style="margin-left:20px;margin-top:20px">
     <h4>Copies</h4>
 
@@ -23,6 +31,10 @@
       {% endif %}
       <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
       <p class="text-muted"><strong>ID:</strong> {{ copy.id }}</p>
+      <div class="bookinstanceMod">
+        <span class="modify"><a href="">Modify copy</a></span>
+        <span class="delete"><a href="">Delete copy</a></span>
+      </div>
     {% endfor %}
   </div>
 {% endblock %}
