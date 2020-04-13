@@ -109,7 +109,7 @@ class Author(models.Model):
     # class to Contributor
     nationality = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    date_of_death = models.DateField('Died', null=True, blank = True)
+    date_of_death = models.DateField('died', null=True, blank = True)
 
     class Meta:
         ordering = ['last_name', 'first_name', 'middle_name']
@@ -123,7 +123,7 @@ class Author(models.Model):
         middle = ""
         suffix = ""
         if self.middle_name:
-            middle = " " + (self.middle_name)[0] + "."
+            middle = " " + (self.middle_name)[0]
         if self.name_suffix:
             suffix = " " + self.name_suffix
-        return f'{self.last_name}, {self.first_name} {middle}{suffix}'
+        return f'{self.last_name}, {self.first_name}{middle}{suffix}'
